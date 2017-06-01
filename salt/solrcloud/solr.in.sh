@@ -45,15 +45,9 @@
 # e.g. host1:2181,host2:2181/chroot
 # Leave empty if not using SolrCloud
 
-{% with %}
-{% set zooip = salt.saltutil.runner('mine.get', tgt='zoo1', fun='network.ip_addrs(interface="eth1")', tgt_type='glob') %}
-{% for ip in zooip %}
-{{ ip }}
+{% for server, addrs in salt['mine.get']('zoo1', 'network.ip_addrs', expr_form='glob') | dictsort() %}
+ZK_HOST="{{ addrs[0] }}/solr"
 {% endfor %}
-ZK_HOST={{ zooip }}"/solr"
-{% endwith %}
-
-
 
 # Set the ZooKeeper client timeout (for SolrCloud mode)
 #ZK_CLIENT_TIMEOUT="15000"
@@ -61,7 +55,7 @@ ZK_HOST={{ zooip }}"/solr"
 # By default the start script uses "localhost"; override the hostname here
 # for production SolrCloud environments to control the hostname exposed to cluster state
 
-SOLR_HOST="{{ salt.network.ip_addrs(interface='eth1')[0] }}/solr"
+SOLR_HOST="{{ salt.network.ip_addrs(interface='eth1')[0] }}"
 
 # By default the start script uses UTC; override the timezone if needed
 #SOLR_TIMEZONE="UTC"

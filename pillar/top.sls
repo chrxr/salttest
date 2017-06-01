@@ -1,6 +1,8 @@
 base:
-  'solr*':
+  '*':
     - packages
+    - common
+  'solr*':
     - solrmine
-  'G@roles:zoo*':
+  'zoo*':
     - zoomine

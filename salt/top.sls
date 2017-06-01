@@ -5,3 +5,5 @@ base:
   "solr*":
     - openjdk
     - solrcloud
+  "blacklight":
+    - ruby-on-rails
